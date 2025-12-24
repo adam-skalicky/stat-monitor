@@ -1,3 +1,16 @@
+## Install
+
+To install the latest build, run:
+
+curl -sL http://stat-monitor.wal-sys.com/latest/install.sh | sudo bash
+
+The install script is the same as install.sh within this repo. It is modified to have the correct binary version for latest. To install a specific version, you can replace latest with your version number like so:
+
+curl -sL http://stat-monitor.wal-sys.com/1.0.4/install.sh | sudo bash
+
+## Support
+
+Currently x86_64 and arm64 Linux that uses systemd is supported. Other versions may work but it is suggested to download the 
 ## Output Reference
 
 The output keys are defined by you in `config.yaml`.
