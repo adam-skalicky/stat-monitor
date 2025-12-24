@@ -324,3 +324,5 @@ func loadConfig(path string) (*Config, error) {
 	}
 	return &cfg, nil
 }
+
+//Test Bump
