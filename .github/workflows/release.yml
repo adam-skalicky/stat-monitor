@@ -149,7 +149,7 @@ jobs:
             
             ## Installation
             ```bash
-            curl -fsSL ${{ secrets.R2_PUBLIC_URL }}/latest/install.sh | sudo bash
+              curl -fsSL ${{ secrets.R2_PUBLIC_URL }}/${{ steps.new_version.outputs.version }}/install.sh | sudo bash
             ```
           draft: false
           prerelease: false
