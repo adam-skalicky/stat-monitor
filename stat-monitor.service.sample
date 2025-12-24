@@ -1,0 +1,21 @@
+[Unit]
+Description=Go Stat Monitor Service
+ConditionPathExists=/opt/stat-monitor/stat-monitor
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/opt/stat-monitor
+ExecStart=/opt/stat-monitor/stat-monitor -config /opt/stat-monitor/config.yaml
+
+Restart=always
+RestartSec=5
+
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=stat-monitor
+
+[Install]
+WantedBy=multi-user.target

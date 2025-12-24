@@ -1,0 +1,93 @@
+global:
+  check_frequency: "1s"
+
+metrics:
+  # --- CUSTOM DISK METRICS ---
+  # You name the key (left side), and define what it measures.
+  
+  "disk_root_used_percent":
+    type: "disk"
+    path: "/"
+    measure: "percent_used" # Options: percent_used, percent_free, used_gb, free_gb, used_mb, free_mb
+    diff: 1.0
+    interval: "30s"
+    resend_interval: "1h"
+
+  "disk_data_free_gb":
+    type: "disk"
+    path: "/data"      # If this path doesn't exist, it will just be ignored
+    measure: "free_gb" 
+    diff: 0.5          # Broadcast if free space changes by 0.5 GB
+    interval: "30s"
+    resend_interval: "1h"
+
+  # --- DYNAMIC DISKS (Auto-Discovery) ---
+  # This finds all mounts and creates keys like "disk_auto_/mnt/data"
+  "disk_auto":
+    type: "disk_auto"
+    measure: "percent_used"
+    diff: 5.0
+    interval: "30s"
+    resend_interval: "1h"
+
+  # --- SYSTEMD SERVICES ---
+  # Broadcasts 1.0 for active/running, 0.0 for inactive/failed
+  # It triggers immediately on status change.
+  "service_postgresql":
+    type: "service"
+    service: "postgresql"
+    diff: 0.1 # Any change (0->1 or 1->0) triggers this
+    interval: "1s"
+    resend_interval: "1h"
+
+  "service_ssh":
+    type: "service"
+    service: "ssh" # Debian/Ubuntu usually 'ssh', RHEL/CentOS 'sshd'
+    diff: 0.1
+    interval: "1s"
+    resend_interval: "1h"
+
+  # --- NETWORK (Real-time Throughput) ---
+  "net_down_mbps":
+    type: "net_rate"
+    measure: "rx_mbps" # rx_mbps or tx_mbps
+    diff: 1.0          # Broadcast if speed changes by 1 Mbps
+    interval: "5s"
+    resend_interval: "1h"
+
+  "net_up_mbps":
+    type: "net_rate"
+    measure: "tx_mbps"
+    diff: 1.0
+    interval: "5s"
+    resend_interval: "1h"
+
+  # --- CPU & MEMORY ---
+  "cpu_total":
+    type: "cpu"
+    measure: "total"
+    diff: 5.0
+    interval: "5s"
+    resend_interval: "1h"
+
+  # Will generate keys like "cpu_core_0", "cpu_core_1"...
+  "cpu_per_core":
+    type: "cpu"
+    measure: "per_core"
+    diff: 10.0
+    interval: "5s"
+    resend_interval: "1h"
+
+  "memory_used_percent":
+    type: "mem"
+    measure: "percent"
+    diff: 1.0
+    interval: "10s"
+    resend_interval: "1h"
+
+  "swap_used_percent":
+    type: "swap"
+    measure: "percent"
+    diff: 1.0
+    interval: "30s"
+    resend_interval: "1h"
