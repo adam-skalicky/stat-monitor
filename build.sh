@@ -6,9 +6,16 @@ APP_NAME="stat-monitor"
 VERSION=$1
 DOMAIN="http://stat-monitor.wal-sys.com"
 
+# If no version provided, read from VERSION file
 if [ -z "$VERSION" ]; then
-    echo "Usage: ./build.sh <version>"
-    exit 1
+    if [ -f "VERSION" ]; then
+        VERSION=$(cat VERSION)
+        echo "Using version from VERSION file: $VERSION"
+    else
+        echo "Usage: ./build.sh <version>"
+        echo "Or create a VERSION file with the version number"
+        exit 1
+    fi
 fi
 
 # --- Safety Checks ---
